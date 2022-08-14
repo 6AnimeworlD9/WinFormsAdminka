@@ -37,6 +37,8 @@
             this.UpdBtn = new System.Windows.Forms.Button();
             this.DelBtn = new System.Windows.Forms.Button();
             this.ReloadDataGrid = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tableMoneyAccountsBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -64,10 +66,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(803, 842);
             this.dataGridView1.TabIndex = 0;
             // 
-            // tableMoneyAccountsBindingSource
-            // 
-            this.tableMoneyAccountsBindingSource.DataSource = typeof(WinFormsAdminka.TableMoneyAccounts);
-            // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -77,7 +75,7 @@
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
             this.button1.Font = new System.Drawing.Font("Stencil", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.Location = new System.Drawing.Point(33, 29);
+            this.button1.Location = new System.Drawing.Point(33, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(375, 34);
             this.button1.TabIndex = 1;
@@ -100,6 +98,7 @@
             this.AddBtn.TabIndex = 2;
             this.AddBtn.Text = "Добавить";
             this.AddBtn.UseVisualStyleBackColor = false;
+            this.AddBtn.Click += new System.EventHandler(this.AddBtn_Click);
             // 
             // UpdBtn
             // 
@@ -116,6 +115,7 @@
             this.UpdBtn.TabIndex = 3;
             this.UpdBtn.Text = "Изменить";
             this.UpdBtn.UseVisualStyleBackColor = false;
+            this.UpdBtn.Click += new System.EventHandler(this.UpdBtn_Click);
             // 
             // DelBtn
             // 
@@ -132,6 +132,7 @@
             this.DelBtn.TabIndex = 4;
             this.DelBtn.Text = "Удалить";
             this.DelBtn.UseVisualStyleBackColor = false;
+            this.DelBtn.Click += new System.EventHandler(this.DelBtn_Click);
             // 
             // ReloadDataGrid
             // 
@@ -150,12 +151,38 @@
             this.ReloadDataGrid.UseVisualStyleBackColor = false;
             this.ReloadDataGrid.Click += new System.EventHandler(this.ReloadDataGrid_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(539, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(297, 60);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Если изображения не прогрузились или \r\nизменились данные в таблице,\r\n то нажмите " +
+    "обновить";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(33, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(420, 20);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Нажмите на строку, которую хотите изменить или удалить.";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(872, 972);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.ReloadDataGrid);
             this.Controls.Add(this.DelBtn);
             this.Controls.Add(this.UpdBtn);
@@ -170,6 +197,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tableMoneyAccountsBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -182,5 +210,7 @@
         private Button UpdBtn;
         private Button DelBtn;
         private Button ReloadDataGrid;
+        private Label label1;
+        private Label label2;
     }
 }

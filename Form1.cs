@@ -68,9 +68,10 @@ namespace WinFormsAdminka
             //далее нужно удалить столбец с картинками в кодированном(текстовом) виде и вместо него создать столбец типа Image
             if (!created)
             {
-                dataGridView1.Columns.Remove("Image");
+                dataGridView1.Columns["Image"].Visible = false;
+                //dataGridView1.Columns.Remove("Image");
                 DataGridViewImageColumn imgColumn = new DataGridViewImageColumn();
-                imgColumn.Name = "Image";
+                imgColumn.Name = "Images";
                 dataGridView1.Columns.Add(imgColumn);
                 created = true;
             }
@@ -78,10 +79,11 @@ namespace WinFormsAdminka
             int i = 0;
             foreach (TableFavourites t in db.TF)
             {
-                dataGridView1.Rows[i].Cells["Image"].Value = new Bitmap(Base64ToImage(t.Image), new Size(420,800));
+                dataGridView1.Rows[i].Cells["Images"].Value = new Bitmap(Base64ToImage(t.Image), new Size(280,540));
                 i++;
             }
         }
+
         //метод для преобразования картинки из текстового base64 в тип Image, который уже можно посмотреть как обычную картинку
         public Image Base64ToImage(string base64String)
         {
@@ -90,6 +92,80 @@ namespace WinFormsAdminka
             {
                 Image image = Image.FromStream(ms, true);
                 return image;
+            }
+        }
+
+        //метод для обработки события нажатия на кнопку "Добавить"
+        //открывает Form2, в которой вводим данные и добавляем этот объект в таблицу, сохраняем в БД
+        private void AddBtn_Click(object sender, EventArgs e)
+        {
+            Form2 add = new Form2();
+            DialogResult result = add.ShowDialog(this);
+
+            if (result == DialogResult.Cancel)
+                return;
+
+            TableFavourites tf = new TableFavourites { info = add.richTextBox1.Text, Image = Convert.ToBase64String(File.ReadAllBytes(add.path)) };
+            db.TF.Add(tf);
+            db.SaveChanges();
+
+            MessageBox.Show("Успешно добавлено.");
+            loadTf();
+        }
+
+        //метод для обработки события нажатия на кнопку "Изменить"
+        //открывает Form2, в которой выводятся данные выбранного объекта, их можно переписать, сохраняем в БД
+        private void UpdBtn_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int index = dataGridView1.SelectedRows[0].Index;
+                int id = 0;
+                bool converted = Int32.TryParse(dataGridView1[1, index].Value.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                TableFavourites tf = db.TF.Find(id);
+
+                Form2 update = new Form2();
+
+                update.idLbl.Text = tf.Id.ToString();
+                update.richTextBox1.Text = tf.info;
+
+
+                DialogResult result = update.ShowDialog(this);
+
+                if (result == DialogResult.Cancel)
+                    return;
+
+                tf.info = update.richTextBox1.Text;
+                if (update.path != "")
+                    tf.Image = Convert.ToBase64String(File.ReadAllBytes(update.path));
+
+                db.SaveChanges();
+                MessageBox.Show("Успешно обновлено.");
+                loadTf();
+            }
+        }
+
+        //метод для обработки события нажатия на кнопку "Удалить"
+        //удаляет выбранный объект из БД
+        private void DelBtn_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int index = dataGridView1.SelectedRows[0].Index;
+                int id = 0;
+                bool converted = Int32.TryParse(dataGridView1[1, index].Value.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                TableFavourites tf = db.TF.Find(id);
+                db.TF.Remove(tf);
+                
+                db.SaveChanges();
+                MessageBox.Show("Успешно удалено.");
+                loadTf();
             }
         }
     }
